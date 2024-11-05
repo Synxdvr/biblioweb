@@ -10,15 +10,6 @@
             @csrf
 
             <div>
-                <label for="role">Role:</label>
-                <select id="role" name="role">
-                    <option value="admin">Admin</option>
-                    <option value="librarian">Librarian</option>
-                    <option value="borrower">Borrower</option>
-                </select>
-            </div>
-
-            <div>
                 <label for="username">Username:</label>
                 <input id="username" type="text" name="username" required autofocus>
             </div>
