@@ -10,24 +10,29 @@
             @csrf
 
             <div>
-                <label for="username">Username:</label>
-                <input id="username" type="text" name="username" required autofocus>
+                <label for="member_username">Username:</label>
+                <input id="member_username" type="text" name="member_username" autofocus>
             </div>
 
             <div>
-                <label for="fullname">Full Name:</label>
-                <input id="fullname" type="text" name="fullname" required>
+                <label for="member_fullname">Full Name:</label>
+                <input id="member_fullname" type="text" name="member_fullname">
             </div>
             
 
             <div>
-                <label for="email">Email:</label>
-                <input id="email" type="email" name="email" required>
+                <label for="contact_information">Email:</label>
+                <input id="contact_information" type="email" name="contact_information">
+            </div>
+
+            <div>
+                <label for="address">Address:</label>
+                <input id="address" type="text" name="address">
             </div>
 
             <div>
                 <label for="password">Password:</label>
-                <input id="password" type="password" name="password" required>
+                <input id="password" type="password" name="password">
                 <div>
                     <button type="button" id="show_password" onclick="togglePasswordVisibility()">Show Password</button>
                 </div>
@@ -35,7 +40,7 @@
 
             <div>
                 <label for="password_confirmation">Confirm Password:</label>
-                <input id="password_confirmation" type="password" name="password_confirmation" required>
+                <input id="password_confirmation" type="password" name="password_confirmation">
                 <div>
                     <button type="button" id="show_confirmation" onclick="toggleConfirmPasswordVisibility()">Show Confirm Password</button>
                 </div>

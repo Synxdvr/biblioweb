@@ -2,12 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\admin\AdminPanel;
 
 // Define a named route for the register view
 Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
+
+Route::post('/register', [RegisterController::class, 'register'])->name('register');
 
 // Define a named route for the login view
 Route::get('/login', function () {
@@ -35,3 +38,9 @@ Route::get('/librarian/dashboard', function () {
 })->name('librarian.dashboard');
 
 Route::get('/members', [AdminPanel::class, 'membersTable'])->name('admin.membersTable');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', function () {
+        return view('home');
+    })->name('home');
+});
