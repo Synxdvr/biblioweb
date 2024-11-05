@@ -9,13 +9,15 @@
     <h1>Members List</h1>
     <table border="1">
         <tr>
-            <th>Name</th>
+            <th>Username</th>
+            <th>Full Name</th>
             <th>Contact Information</th>
             <th>Address</th>
         </tr>
         @foreach ($members as $member)
         <tr>
-            <td>{{ $member->member_name }}</td>
+            <td>{{ $member->member_username }}</td>
+            <td>{{ $member->member_fullname }}</td>
             <td>{{ $member->contact_information }}</td>
             <td>{{ $member->address }}</td>
         </tr>
