@@ -59,17 +59,7 @@
                     </div>
                 </div>
 
-                <!-- Role Dropdown -->
-                <div class="mt-6">
-                    <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
-                    <select id="role" name="role" 
-                        class="mt-1 p-3 w-full border border-gray-300 rounded-[30px] focus:ring-blue-500 focus:border-blue-500 pl-3">
-                        <option value="Admin">Admin</option>
-                        <option value="Librarian">Librarian</option>
-                        <option value="Borrower">Borrower</option>
-                    </select>
-                </div>
-
+            
                 <!-- Submit Button -->
                 <div class="mt-8 text-center">
                     <button type="submit" class="w-full bg-[#222141] text-white py-3 rounded-[30px] hover:bg-[#444]">
