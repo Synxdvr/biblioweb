@@ -6,6 +6,10 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\AdminPanel;
 use App\Http\Controllers\User\HomeController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\User\BookController;
+use App\Http\Controllers\User\ProfileController;
+
+
 
 // Register Routes
 Route::get('/register', function () {
@@ -32,6 +36,21 @@ Route::get('/librarian/dashboard', function () {
 
 // Route for the homepage (User dashboard)
 Route::get('/homepage', [HomeController::class, 'index'])->name('user.homepage')->middleware('auth');
+
+
+
+//User View Books Routes
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/view-books', [BookController::class, 'index'])->name('view.books');
+    Route::get('/borrow-book/{id}', [BookController::class, 'borrowBook'])->name('borrow.book');
+    Route::get('/borrowed-books', [BookController::class, 'viewBorrowedBooks'])->name('view.borrowed.books');
+    Route::get('/unborrow-book/{id}', [BookController::class, 'unborrowBook'])->name('unborrow.book');
+
+    // Profile Routes
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+});
 
 // Logout Route
 Route::post('/logout', function () {

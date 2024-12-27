@@ -52,13 +52,14 @@
                     </a>
                     <span class="tooltip">Dashboard</span>
                 </div>
-                <!-- View List Books -->
-                <div class="group relative flex items-center justify-center">
-                    <a href="#" class="w-16 h-16 flex items-center justify-center hover:bg-white hover:text-[#00001B] rounded-lg transition">
-                        <span class="text-3xl">&#128214;</span>
-                    </a>
-                    <span class="tooltip">View List Books</span>
-                </div>
+               <!-- View List Books -->
+          <div class="group relative flex items-center justify-center">
+                <!-- Update the href to point to the 'view-books' route -->
+                <a href="{{ url('/view-books') }}" class="w-16 h-16 flex items-center justify-center hover:bg-white hover:text-[#00001B] rounded-lg transition">
+                <span class="text-3xl">&#128214;</span>
+            </a>
+            <span class="tooltip">View List Books</span>
+            </div>
                 <!-- View Borrowed Books -->
                 <div class="group relative flex items-center justify-center">
                     <a href="#" class="w-16 h-16 flex items-center justify-center hover:bg-white hover:text-[#00001B] rounded-lg transition">
@@ -69,8 +70,8 @@
             </div>
         </div>
 
-        <!-- Log Out Icon at Bottom -->
-        <div class="group relative flex items-center justify-center mb-6">
+         <!-- Log Out Icon at Bottom -->
+         <div class="group relative flex items-center justify-center mb-6">
             <a href="#" class="w-16 h-16 flex items-center justify-center hover:bg-white hover:text-[#00001B] rounded-lg transition">
                 <span class="text-3xl">&#128682;</span>
             </a>
@@ -84,12 +85,12 @@
         <!-- Top Bar -->
         <div class="bg-[#222143] text-white px-6 py-4 flex justify-between items-center shadow-md">
         <h1 class="text-lg font-semibold">Welcome, {{ $user->member_username }}</h1>
-            <!-- Settings Icon with Hover -->
-            <div class="group relative flex items-center justify-center">
-    <a href="#" class="w-12 h-12 flex items-center justify-center hover:bg-white hover:text-[#222143] rounded-lg transition">
-        <span class="text-2xl">&#9881;</span>
-    </a>
-</div>
+        <!-- Settings Icon with Hover -->
+        <div class="group relative flex items-center justify-center">
+            <a href="{{ route('profile.edit') }}" class="w-12 h-12 flex items-center justify-center hover:bg-white hover:text-[#222143] rounded-lg transition">
+                <span class="text-2xl">&#9881;</span>
+            </a>
+        </div>
         </div>
 
         <!-- Content Section -->

@@ -12,7 +12,7 @@ class BooksTableSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('books')->insert([
+        $books = [
             [
                 'title' => 'The Great Gatsby',
                 'author' => 'F. Scott Fitzgerald',
@@ -74,7 +74,7 @@ class BooksTableSeeder extends Seeder
                 'author' => 'Homer',
                 'ISBN' => '9780140268867',
                 'genre' => 'Epic',
-                'publication_date' => '-0800-01-01',  // Changed to valid date format
+                'publication_date' => '2000-01-01',  // Placeholder date
                 'availability_status' => 'available',
             ],
             [
@@ -92,7 +92,89 @@ class BooksTableSeeder extends Seeder
                 'genre' => 'Dystopian',
                 'publication_date' => '1932-08-31',
                 'availability_status' => 'borrowed',
+            ],
+            [
+                'title' => 'The Lord of the Rings',
+                'author' => 'J.R.R. Tolkien',
+                'ISBN' => '9780261102385',
+                'genre' => 'Fantasy',
+                'publication_date' => '1954-07-29',
+                'availability_status' => 'available',
+            ],
+            [
+                'title' => 'Harry Potter and the Sorcerer\'s Stone',
+                'author' => 'J.K. Rowling',
+                'ISBN' => '9780439708180',
+                'genre' => 'Fantasy',
+                'publication_date' => '1997-06-26',
+                'availability_status' => 'available',
+            ],
+            [
+                'title' => 'The Chronicles of Narnia',
+                'author' => 'C.S. Lewis',
+                'ISBN' => '9780066238500',
+                'genre' => 'Fantasy',
+                'publication_date' => '1950-10-16',
+                'availability_status' => 'borrowed',
+            ],
+            [
+                'title' => 'The Hunger Games',
+                'author' => 'Suzanne Collins',
+                'ISBN' => '9780439023481',
+                'genre' => 'Dystopian',
+                'publication_date' => '2008-09-14',
+                'availability_status' => 'available',
+            ],
+            [
+                'title' => 'The Fault in Our Stars',
+                'author' => 'John Green',
+                'ISBN' => '9780525478812',
+                'genre' => 'Romance',
+                'publication_date' => '2012-01-10',
+                'availability_status' => 'borrowed',
+            ],
+            [
+                'title' => 'The Book Thief',
+                'author' => 'Markus Zusak',
+                'ISBN' => '9780375842207',
+                'genre' => 'Historical Fiction',
+                'publication_date' => '2005-03-14',
+                'availability_status' => 'available',
+            ],
+            [
+                'title' => 'The Maze Runner',
+                'author' => 'James Dashner',
+                'ISBN' => '9780385737951',
+                'genre' => 'Science Fiction',
+                'publication_date' => '2009-10-06',
+                'availability_status' => 'borrowed',
+            ],
+            [
+                'title' => 'Divergent',
+                'author' => 'Veronica Roth',
+                'ISBN' => '9780062024039',
+                'genre' => 'Dystopian',
+                'publication_date' => '2011-04-25',
+                'availability_status' => 'available',
+            ],
+            [
+                'title' => 'The Giver',
+                'author' => 'Lois Lowry',
+                'ISBN' => '9780544336261',
+                'genre' => 'Dystopian',
+                'publication_date' => '1993-04-26',
+                'availability_status' => 'borrowed',
+            ],
+            [
+                'title' => 'Ender\'s Game',
+                'author' => 'Orson Scott Card',
+                'ISBN' => '9780812550702',
+                'genre' => 'Science Fiction',
+                'publication_date' => '1985-01-15',
+                'availability_status' => 'available',
             ]
-        ]);
+        ];
+
+        DB::table('books')->insert($books);
     }
 }
