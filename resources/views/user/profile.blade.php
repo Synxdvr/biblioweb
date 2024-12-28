@@ -28,6 +28,13 @@
         .group:hover .tooltip {
             display: block;
         }
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            gap: 2rem; /* Ensure gap is applied */
+        }
     </style>
 </head>
 <body class="bg-[#FCF1F1] text-gray-800 flex h-screen">
@@ -47,7 +54,7 @@
             <div class="flex flex-col space-y-8 relative">
                 <!-- Dashboard -->
                 <div class="group relative flex items-center justify-center">
-                    <a href="#" class="w-16 h-16 flex items-center justify-center hover:bg-white hover:text-[#00001B] rounded-lg transition">
+                    <a href="{{ url('/homepage') }}" class="w-16 h-16 flex items-center justify-center hover:bg-white hover:text-[#00001B] rounded-lg transition">
                         <span class="text-3xl">&#127968;</span>
                     </a>
                     <span class="tooltip">Dashboard</span>
@@ -72,9 +79,12 @@
 
          <!-- Log Out Icon at Bottom -->
          <div class="group relative flex items-center justify-center mb-6">
-            <a href="#" class="w-16 h-16 flex items-center justify-center hover:bg-white hover:text-[#00001B] rounded-lg transition">
-                <span class="text-3xl">&#128682;</span>
-            </a>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="w-16 h-16 flex items-center justify-center hover:bg-white hover:text-[#00001B] rounded-lg transition">
+                    <span class="text-3xl">&#128682;</span>
+                </button>
+            </form>
             <span class="tooltip">Log Out</span>
         </div>
     </nav>
@@ -112,8 +122,28 @@
             <form action="{{ route('profile.update') }}" method="POST" class="space-y-4">
                 @csrf
                 <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                    <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" required
+                    <label for="member_username" class="block text-sm font-medium text-gray-700">Username</label>
+                    <input type="text" name="member_username" id="member_username" value="{{ old('member_username', $user->member_username) }}" required
+                           class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <div>
+                    <label for="member_fullname" class="block text-sm font-medium text-gray-700">Full Name</label>
+                    <input type="text" name="member_fullname" id="member_fullname" value="{{ old('member_fullname', $user->member_fullname) }}" required
+                           class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <div>
+                    <label for="contact_information" class="block text-sm font-medium text-gray-700">Contact Information</label>
+                    <input type="text" name="contact_information" id="contact_information" value="{{ old('contact_information', $user->contact_information) }}" required
+                           class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <div>
+                    <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                    <input type="text" name="address" id="address" value="{{ old('address', $user->address) }}" required
+                           class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <div>
+                    <label for="old_password" class="block text-sm font-medium text-gray-700">Old Password</label>
+                    <input type="password" name="old_password" id="old_password"
                            class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500" />
                 </div>
                 <div>

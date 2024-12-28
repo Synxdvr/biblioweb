@@ -23,16 +23,27 @@ class ProfileController extends Controller
 
         // Validate the request
         $request->validate([
-            'name' => 'required|string|max:255',
+            'member_username' => 'required|string|max:255',
+            'member_fullname' => 'required|string|max:255',
+            'contact_information' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'old_password' => 'nullable|string|min:8',
             'password' => 'nullable|string|min:8|confirmed',
         ]);
 
-        // Update the user's name
-        $user->name = $request->input('name');
+        // Update the user's details
+        $user->member_username = $request->input('member_username');
+        $user->member_fullname = $request->input('member_fullname');
+        $user->contact_information = $request->input('contact_information');
+        $user->address = $request->input('address');
 
-        // Update the user's password if provided
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->input('password'));
+        // Validate and update the user's password if provided
+        if ($request->filled('old_password') && Hash::check($request->input('old_password'), $user->password)) {
+            if ($request->filled('password')) {
+                $user->password = Hash::make($request->input('password'));
+            }
+        } elseif ($request->filled('old_password')) {
+            return redirect()->route('profile.edit')->with('error', 'Old password is incorrect.');
         }
 
         // Save the changes

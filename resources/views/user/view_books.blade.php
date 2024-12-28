@@ -28,6 +28,7 @@
         .group:hover .tooltip {
             display: block;
         }
+        
     </style>
 </head>
 <body class="bg-[#FCF1F1] text-gray-800 flex h-screen">
@@ -47,7 +48,7 @@
             <div class="flex flex-col space-y-8 relative">
                 <!-- Dashboard -->
                 <div class="group relative flex items-center justify-center">
-                    <a href="#" class="w-16 h-16 flex items-center justify-center hover:bg-white hover:text-[#00001B] rounded-lg transition">
+                    <a href="{{ url('/homepage') }}" class="w-16 h-16 flex items-center justify-center hover:bg-white hover:text-[#00001B] rounded-lg transition">
                         <span class="text-3xl">&#127968;</span>
                     </a>
                     <span class="tooltip">Dashboard</span>
@@ -72,9 +73,12 @@
 
         <!-- Log Out Icon at Bottom -->
         <div class="group relative flex items-center justify-center mb-6">
-            <a href="#" class="w-16 h-16 flex items-center justify-center hover:bg-white hover:text-[#00001B] rounded-lg transition">
-                <span class="text-3xl">&#128682;</span>
-            </a>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="w-16 h-16 flex items-center justify-center hover:bg-white hover:text-[#00001B] rounded-lg transition">
+                    <span class="text-3xl">&#128682;</span>
+                </button>
+            </form>
             <span class="tooltip">Log Out</span>
         </div>
     </nav>

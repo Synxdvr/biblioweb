@@ -62,7 +62,7 @@
             </div>
                 <!-- View Borrowed Books -->
                 <div class="group relative flex items-center justify-center">
-                    <a href="#" class="w-16 h-16 flex items-center justify-center hover:bg-white hover:text-[#00001B] rounded-lg transition">
+                    <a href="{{ route('view.borrowed.books') }}" class="w-16 h-16 flex items-center justify-center hover:bg-white hover:text-[#00001B] rounded-lg transition">
                         <span class="text-3xl">&#128336;</span>
                     </a>
                     <span class="tooltip">View Borrowed Books</span>
@@ -72,9 +72,12 @@
 
          <!-- Log Out Icon at Bottom -->
          <div class="group relative flex items-center justify-center mb-6">
-            <a href="#" class="w-16 h-16 flex items-center justify-center hover:bg-white hover:text-[#00001B] rounded-lg transition">
-                <span class="text-3xl">&#128682;</span>
-            </a>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="w-16 h-16 flex items-center justify-center hover:bg-white hover:text-[#00001B] rounded-lg transition">
+                    <span class="text-3xl">&#128682;</span>
+                </button>
+            </form>
             <span class="tooltip">Log Out</span>
         </div>
     </nav>
@@ -97,13 +100,17 @@
         <div class="p-14 flex-1 grid grid-cols-1 md:grid-cols-2 gap-12">
             <!-- View Books Box -->
             <div class="bg-[#4A4C6E] text-white rounded-lg p-6 flex flex-col items-center justify-center shadow-md hover:shadow-lg transition">
-                <span class="text-7xl mb-4">&#128214;</span>
-                <h2 class="text-lg font-semibold">View List Books</h2>
+                <a href="{{ url('/view-books') }}" class="flex flex-col items-center justify-center">
+                    <span class="text-7xl mb-4">&#128214;</span>
+                    <h2 class="text-lg font-semibold">View List Books</h2>
+                </a>
             </div>
             <!-- View Borrowed Books Box -->
             <div class="bg-[#4A4C6E] text-white rounded-lg p-6 flex flex-col items-center justify-center shadow-md hover:shadow-lg transition">
-                <span class="text-6xl mb-4">&#128336;</span>
-                <h2 class="text-lg font-semibold">View Borrowed Books</h2>
+                <a href="{{ route('view.borrowed.books') }}" class="flex flex-col items-center justify-center">
+                    <span class="text-6xl mb-4">&#128336;</span>
+                    <h2 class="text-lg font-semibold">View Borrowed Books</h2>
+                </a>
             </div>
         </div>
 
