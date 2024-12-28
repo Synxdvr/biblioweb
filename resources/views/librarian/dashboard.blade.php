@@ -69,6 +69,66 @@
             justify-content: space-around;
             margin-top: 20px;
         }
+        /* Carousel Styling */
+        .carousel {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease;
+            width: 100%;
+        }
+        .carousel-item {
+            min-width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .quote-box {
+            background-color: rgba(74, 76, 110, 0.8);
+            color: white;
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .carousel-controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+        .carousel-control {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s ease;
+            visibility: hidden; /* Make the arrow buttons invisible */
+        }
+        .carousel-control:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
     </style>
 </head>
 <body class="bg-[#FCF1F1] text-gray-800 flex h-screen">
@@ -139,11 +199,29 @@
 
         <!-- Content Section -->
         <div class="p-14 flex-1 grid grid-cols-1 gap-12">
-            <!-- Quotes Box -->
-            <div class="bg-[#4A4C6E] text-white rounded-lg p-6 flex flex-col items-center justify-center shadow-md hover:shadow-lg transition">
-                <p class="text-xl text-center mb-4">"The best way to predict the future is to create it."<br><span class="block mt-2 font-semibold">- Peter Drucker</span></p>
-                <p class="text-xl text-center mb-4">"Management is doing things right; leadership is doing the right things."<br><span class="block mt-2 font-semibold">- Peter Drucker</span></p>
-                <p class="text-xl text-center">"The function of leadership is to produce more leaders, not more followers."<br><span class="block mt-2 font-semibold">- Ralph Nader</span></p>
+            <!-- Quotes Carousel -->
+            <div class="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item" style="background-image: url('{{ asset('images/quote1.jpg') }}');">
+                        <div class="quote-box">
+                            <p class="text-xl mb-4">"It is our choices, Harry, that show what we truly are, far more than our abilities."<br><span class="block mt-2 font-semibold">- J.K. Rowling, Harry Potter and the Chamber of Secrets</span></p>
+                        </div>
+                    </div>
+                    <div class="carousel-item" style="background-image: url('{{ asset('images/quote2.jpg') }}');">
+                        <div class="quote-box">
+                            <p class="text-xl mb-4">"Not all those who wander are lost."<br><span class="block mt-2 font-semibold">- J.R.R. Tolkien, The Fellowship of the Ring</span></p>
+                        </div>
+                    </div>
+                    <div class="carousel-item" style="background-image: url('{{ asset('images/qoute3.jpg') }}');">
+                        <div class="quote-box">
+                            <p class="text-xl">"The only limit to our realization of tomorrow is our doubts of today."<br><span class="block mt-2 font-semibold">- Franklin D. Roosevelt</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-controls">
+                    <button class="carousel-control" onclick="prevSlide()">&#10094;</button>
+                    <button class="carousel-control" onclick="nextSlide()">&#10095;</button>
+                </div>
             </div>
         </div>
     </div>
@@ -180,6 +258,32 @@
                 logoutModal.style.display = 'none';
             }
         }
+
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            const slides = document.querySelectorAll('.carousel-item');
+            if (index >= slides.length) {
+                currentSlide = 0;
+            } else if (index < 0) {
+                currentSlide = slides.length - 1;
+            } else {
+                currentSlide = index;
+            }
+            const offset = -currentSlide * 100;
+            document.querySelector('.carousel-inner').style.transform = `translateX(${offset}%)`;
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        // Auto-slide every 5 seconds
+        setInterval(nextSlide, 5000);
     </script>
 
 </body>

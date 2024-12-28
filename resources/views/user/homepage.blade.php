@@ -28,6 +28,59 @@
         .group:hover .tooltip {
             display: block;
         }
+        .quote-box {
+            background-color: rgba(74, 76, 110, 0.8);
+            color: white;
+            border-radius: 8px;
+            padding: 30px; /* Increase padding */
+            max-width: 800px; /* Increase max-width */
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-size: 1.25rem; /* Increase font size */
+            margin-bottom: 20px; /* Add margin between quotes */
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000; /* Adjust z-index to ensure modal is on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 1in auto; /* Position the modal 1 inch from the top */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 8px;
+            text-align: center;
+            z-index: 10001; /* Ensure modal content is above the modal background */
+        }
+        .quotes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            align-items: center; /* Center align items */
+            text-align: center; /* Center text */
+        }
+        .quote {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+            flex: 1 1 calc(33.333% - 20px); /* Adjust width for three columns */
+            box-sizing: border-box;
+        }
+        .quote img {
+            max-width: 200px; /* Make images bigger */
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body class="bg-[#FCF1F1] text-gray-800 flex h-screen">
@@ -81,7 +134,7 @@
 
     <!-- Modal for Logout Confirmation -->
     <div id="logoutModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
-        <div class="bg-white p-6 rounded-lg shadow-lg">
+        <div class="modal-content">
             <h2 class="text-xl font-semibold mb-4">Confirm Logout</h2>
             <p>Are you sure you want to log out?</p>
             <div class="mt-4 flex justify-end space-x-4">
@@ -109,29 +162,22 @@
         </div>
 
         <!-- Content Section -->
-        <div class="p-14 flex-1 grid grid-cols-1 md:grid-cols-2 gap-12">
-            <!-- View Books Box -->
-            <div class="bg-[#4A4C6E] text-white rounded-lg p-6 flex flex-col items-center justify-center shadow-md hover:shadow-lg transition">
-                <a href="{{ url('/view-books') }}" class="flex flex-col items-center justify-center">
-                    <span class="text-7xl mb-4">&#128214;</span>
-                    <h2 class="text-lg font-semibold">View List Books</h2>
-                </a>
+        <div class="p-14 flex-1">
+            <!-- Quotes Section -->
+            <div class="quotes">
+                <div class="quote">
+                    <img src="{{ asset('images/quote1.jpg') }}" alt="Quote 1">
+                    <div class="quote-box">
+                        <p>"It is our choices, Harry, that show what we truly are, far more than our abilities."<br><span class="block mt-2 font-semibold">- J.K. Rowling, Harry Potter and the Chamber of Secrets</span></p>
+                    </div>
+                </div>
+                <div class="quote">
+                    <img src="{{ asset('images/quote2.jpg') }}" alt="Quote 2">
+                    <div class="quote-box">
+                        <p>"Not all those who wander are lost."<br><span class="block mt-2 font-semibold">- J.R.R. Tolkien, The Fellowship of the Ring</span></p>
+                    </div>
+                </div>
             </div>
-            <!-- View Borrowed Books Box -->
-            <div class="bg-[#4A4C6E] text-white rounded-lg p-6 flex flex-col items-center justify-center shadow-md hover:shadow-lg transition">
-                <a href="{{ route('view.borrowed.books') }}" class="flex flex-col items-center justify-center">
-                    <span class="text-6xl mb-4">&#128336;</span>
-                    <h2 class="text-lg font-semibold">View Borrowed Books</h2>
-                </a>
-            </div>
-        </div>
-
-        <!-- Quote Section -->
-        <div class="bg-[#4A4C6E] text-white mx-12 mb-10 p-14 rounded-lg text-center shadow-lg">
-            <p class="text-lg font-light leading-relaxed">
-                "A room without books is like a body without a soul."<br>
-                <span class="block mt-2 font-semibold">- Marcus Tullius Cicero</span>
-            </p>
         </div>
     </div>
 
