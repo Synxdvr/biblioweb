@@ -19,43 +19,61 @@
 
                 <!-- Username and Full Name Side by Side -->
                 <div class="flex space-x-4">
-                    <div class="w-[60%]">
+                    <div class="w-2/5">
                         <label for="member_username" class="block text-sm font-medium text-gray-700">Username</label>
-                        <input id="member_username" type="text" name="member_username" autofocus 
+                        <input id="member_username" type="text" name="member_username" value="{{ old('member_username') }}" autofocus 
                             class="mt-1 p-3 w-full border border-gray-300 rounded-[30px] focus:ring-blue-500 focus:border-blue-500">
+                        @error('member_username')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
                     </div>
-                    <div class="w-[60%]">
+                    <div class="w-3/5">
                         <label for="member_fullname" class="block text-sm font-medium text-gray-700">Full Name</label>
-                        <input id="member_fullname" type="text" name="member_fullname" 
+                        <input id="member_fullname" type="text" name="member_fullname" value="{{ old('member_fullname') }}"
                             class="mt-1 p-3 w-full border border-gray-300 rounded-[30px] focus:ring-blue-500 focus:border-blue-500">
+                        @error('member_fullname')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
                     </div>
                 </div>
 
                 <!-- Email and Address Side by Side -->
                 <div class="flex space-x-4 mt-6">
-                    <div class="w-[60%]">
+                    <div class="w-2/5">
                         <label for="contact_information" class="block text-sm font-medium text-gray-700">Email</label>
-                        <input id="contact_information" type="email" name="contact_information" 
+                        <input id="contact_information" type="email" name="contact_information" value="{{ old('contact_information') }}"
                             class="mt-1 p-3 w-full border border-gray-300 rounded-[30px] focus:ring-blue-500 focus:border-blue-500">
+                        @error('contact_information')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
                     </div>
-                    <div class="w-[60%]">
+                    <div class="w-3/5">
                         <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
-                        <input id="address" type="text" name="address" 
+                        <input id="address" type="text" name="address" value="{{ old('address') }}"
                             class="mt-1 p-3 w-full border border-gray-300 rounded-[30px] focus:ring-blue-500 focus:border-blue-500">
+                        @error('address')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
                     </div>
                 </div>
 
                 <!-- Password and Confirm Password Side by Side -->
                 <div class="flex space-x-4 mt-6">
-                    <div class="w-[60%]">
+                    <div class="w-1/2">
                         <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                         <input id="password" type="password" name="password" 
                             class="mt-1 p-3 w-full border border-gray-300 rounded-[30px] focus:ring-blue-500 focus:border-blue-500">
+                        @error('password')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
                     </div>
-                    <div class="w-[60%]">
+                    <div class="w-1/2">
                         <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm Password</label>
                         <input id="password_confirmation" type="password" name="password_confirmation" 
                             class="mt-1 p-3 w-full border border-gray-300 rounded-[30px] focus:ring-blue-500 focus:border-blue-500">
+                        @error('password_confirmation')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
                     </div>
                 </div>
 

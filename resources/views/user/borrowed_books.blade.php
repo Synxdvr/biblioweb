@@ -37,7 +37,7 @@
         }
     </style>
 </head>
-<body class="bg-[#FCF1F1] text-gray-800 flex h-screen">
+<body class="bg-[#FCF1F1] text-gray-800 flex h-screen overflow-hidden">
 
     <!-- Sidebar -->
     <nav class="w-24 bg-[#00001B] text-white flex flex-col items-center py-8 justify-between relative">
@@ -79,18 +79,15 @@
 
          <!-- Log Out Icon at Bottom -->
          <div class="group relative flex items-center justify-center mb-6">
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="w-16 h-16 flex items-center justify-center hover:bg-white hover:text-[#00001B] rounded-lg transition">
-                    <span class="text-3xl">&#128682;</span>
-                </button>
-            </form>
+            <button id="logoutButton" class="w-16 h-16 flex items-center justify-center hover:bg-white hover:text-[#00001B] rounded-lg transition">
+                <span class="text-3xl">&#128682;</span>
+            </button>
             <span class="tooltip">Log Out</span>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <div class="flex-1 flex flex-col">
+    <div class="flex-1 flex flex-col overflow-auto">
 
         <!-- Top Bar -->
         <div class="bg-[#222143] text-white px-6 py-4 flex justify-between items-center shadow-md">
@@ -142,9 +139,9 @@
                             <td class="border border-gray-300 p-2">{{ ucfirst($book->availability_status) }}</td>
                             <td class="border border-gray-300 p-2">
                                 <!-- Return button -->
-                                <a href="{{ route('unborrow.book', $book->id) }}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
+                                <button onclick="showReturnModal('{{ route('unborrow.book', $book->id) }}')" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
                                     Return
-                                </a>
+                                </button>
                             </td>
                         </tr>
                     @endforeach
@@ -158,5 +155,51 @@
         </div>
     </div>
     
+    <!-- Modal -->
+    <div id="returnModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-xl font-semibold mb-4">Confirm Return</h2>
+            <p>Are you sure you want to return this book?</p>
+            <div class="mt-4 flex justify-end space-x-4">
+                <button id="cancelReturn" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">Cancel</button>
+                <a id="confirmReturn" href="#" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Confirm</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Logout Confirmation -->
+    <div id="logoutModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-xl font-semibold mb-4">Confirm Logout</h2>
+            <p>Are you sure you want to log out?</p>
+            <div class="mt-4 flex justify-end space-x-4">
+                <button id="cancelLogout" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">Cancel</button>
+                <form id="logoutForm" action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Logout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showReturnModal(url) {
+            document.getElementById('confirmReturn').href = url;
+            document.getElementById('returnModal').classList.remove('hidden');
+        }
+
+        document.getElementById('cancelReturn').addEventListener('click', function() {
+            document.getElementById('returnModal').classList.add('hidden');
+        });
+
+        document.getElementById('logoutButton').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('logoutModal').classList.remove('hidden');
+        });
+
+        document.getElementById('cancelLogout').addEventListener('click', function() {
+            document.getElementById('logoutModal').classList.add('hidden');
+        });
+    </script>
 </body>
 </html>

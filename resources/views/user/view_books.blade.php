@@ -31,7 +31,7 @@
         
     </style>
 </head>
-<body class="bg-[#FCF1F1] text-gray-800 flex h-screen">
+<body class="bg-[#FCF1F1] text-gray-800 flex h-screen overflow-hidden">
 
     <!-- Sidebar -->
     <nav class="w-24 bg-[#00001B] text-white flex flex-col items-center py-8 justify-between relative">
@@ -73,18 +73,15 @@
 
         <!-- Log Out Icon at Bottom -->
         <div class="group relative flex items-center justify-center mb-6">
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="w-16 h-16 flex items-center justify-center hover:bg-white hover:text-[#00001B] rounded-lg transition">
-                    <span class="text-3xl">&#128682;</span>
-                </button>
-            </form>
+            <button id="logoutButton" class="w-16 h-16 flex items-center justify-center hover:bg-white hover:text-[#00001B] rounded-lg transition">
+                <span class="text-3xl">&#128682;</span>
+            </button>
             <span class="tooltip">Log Out</span>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <div class="flex-1 flex flex-col">
+    <div class="flex-1 flex flex-col overflow-auto">
 
         <!-- Top Bar -->
         <div class="bg-[#222143] text-white px-6 py-4 flex justify-between items-center shadow-md">
@@ -115,7 +112,8 @@
             <!-- Search Bar -->
             <form action="{{ route('view.books') }}" method="GET" class="mb-4">
                 <input type="text" name="search" value="{{ old('search', $search ?? '') }}" placeholder="Search by title, author, or genre"
-                       class="border border-gray-300 p-2 rounded-lg w-full md:w-1/3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                       class="border border-gray-300 p-2 rounded-lg w-full md:w-1/3 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                       pattern="[A-Za-z0-9\s]+" title="Search can only contain letters, numbers, and spaces" />
             </form>
 
             <!-- Books Table -->
@@ -143,9 +141,9 @@
                             <td class="border border-gray-300 p-2">
                                 @if($book->availability_status === 'available')
                                     <!-- Borrow button -->
-                                    <a href="{{ route('borrow.book', $book->id) }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                                    <button onclick="showBorrowModal('{{ route('borrow.book', $book->id) }}')" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
                                         Borrow
-                                    </a>
+                                    </button>
                                 @else
                                     <span class="text-red-500">Not Available</span>
                                 @endif
@@ -161,5 +159,52 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div id="borrowModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-xl font-semibold mb-4">Confirm Borrow</h2>
+            <p>Are you sure you want to borrow this book?</p>
+            <div class="mt-4 flex justify-end space-x-4">
+                <button id="cancelBorrow" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">Cancel</button>
+                <a id="confirmBorrow" href="#" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Confirm</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Logout Confirmation -->
+    <div id="logoutModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-xl font-semibold mb-4">Confirm Logout</h2>
+            <p>Are you sure you want to log out?</p>
+            <div class="mt-4 flex justify-end space-x-4">
+                <button id="cancelLogout" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">Cancel</button>
+                <form id="logoutForm" action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Logout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showBorrowModal(url) {
+            document.getElementById('confirmBorrow').href = url;
+            document.getElementById('borrowModal').classList.remove('hidden');
+        }
+
+        document.getElementById('cancelBorrow').addEventListener('click', function() {
+            document.getElementById('borrowModal').classList.add('hidden');
+        });
+
+        document.getElementById('logoutButton').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('logoutModal').classList.remove('hidden');
+        });
+
+        document.getElementById('cancelLogout').addEventListener('click', function() {
+            document.getElementById('logoutModal').classList.add('hidden');
+        });
+    </script>
 </body>
 </html>

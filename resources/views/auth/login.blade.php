@@ -20,8 +20,11 @@
                 <!-- Username Field -->
                 <div class="mb-6">
                     <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
-                    <input type="text" id="username" name="username" required autofocus
+                    <input type="text" id="username" name="username" value="{{ old('username') }}" required autofocus
                         class="mt-1 p-3 w-full border border-gray-300 rounded-[30px] focus:ring-blue-500 focus:border-blue-500">
+                    @error('username')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <!-- Password Field -->
@@ -29,6 +32,9 @@
                     <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                     <input type="password" id="password" name="password" required
                         class="mt-1 p-3 w-full border border-gray-300 rounded-[30px] focus:ring-blue-500 focus:border-blue-500">
+                    @error('password')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
 
 
