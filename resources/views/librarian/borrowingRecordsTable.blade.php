@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Librarian Dashboard</title>
+    <title>Borrowing Records</title>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     @vite('resources/css/app.css')
     <style>
@@ -27,6 +27,20 @@
         }
         .group:hover .tooltip {
             display: block;
+        }
+        
+        table {
+            width: 100%;
+            table-layout: fixed;
+        }
+        th, td {
+            word-wrap: break-word;
+        }
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
         }
     </style>
 </head>
@@ -89,21 +103,62 @@
     </nav>
 
     <!-- Main Content -->
-    <div class="flex-1 flex flex-col">
+    <div class="flex-1 flex flex-col ml-0 overflow-auto">
 
         <!-- Top Bar -->
         <div class="bg-[#222143] text-white px-6 py-4 flex justify-between items-center shadow-md">
-            <h1 class="text-lg font-semibold">Welcome, Librarian</h1>
+            <h1 class="text-lg font-semibold">Borrowing Records</h1>
         </div>
 
         <!-- Content Section -->
-        <div class="p-14 flex-1 grid grid-cols-1 gap-12">
-            <!-- Quotes Box -->
-            <div class="bg-[#4A4C6E] text-white rounded-lg p-6 flex flex-col items-center justify-center shadow-md hover:shadow-lg transition">
-                <p class="text-xl text-center mb-4">"The best way to predict the future is to create it."<br><span class="block mt-2 font-semibold">- Peter Drucker</span></p>
-                <p class="text-xl text-center mb-4">"Management is doing things right; leadership is doing the right things."<br><span class="block mt-2 font-semibold">- Peter Drucker</span></p>
-                <p class="text-xl text-center">"The function of leadership is to produce more leaders, not more followers."<br><span class="block mt-2 font-semibold">- Ralph Nader</span></p>
-            </div>
+        <div class="p-6 flex-1">
+            <h1 class="text-2xl font-semibold mb-6">Borrowing Records</h1>
+            
+            <!-- Borrowing Records Table -->
+            @if ($borrowingRecords->count())
+                <table class="min-w-full table-auto border-collapse border border-gray-300">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="border border-gray-300 p-2">Record ID</th>
+                            <th class="border border-gray-300 p-2">Book Title</th>
+                            <th class="border border-gray-300 p-2">Member Name</th>
+                            <th class="border border-gray-300 p-2">Borrow Date</th>
+                            <th class="border border-gray-300 p-2">Return Date</th>
+                            <th class="border border-gray-300 p-2">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($borrowingRecords as $record)
+                            @if($record->status == 'borrowed')
+                                <tr>
+                                    <td class="border border-gray-300 p-2">{{ $record->record_id }}</td>
+                                    <td class="border border-gray-300 p-2">{{ $record->book->title }}</td>
+                                    <td class="border border-gray-300 p-2">{{ $record->member->member_fullname }}</td>
+                                    <td class="border border-gray-300 p-2">{{ $record->borrow_date }}</td>
+                                    <td class="border border-gray-300 p-2">{{ $record->return_date }}</td>
+                                    <td class="border border-gray-300 p-2">
+                                        <form action="{{ route('librarian.borrowingRecords.update', $record->record_id) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <input type="date" name="return_date" value="{{ $record->return_date ?? '' }}" required>
+                                            <select name="status" required>
+                                                <option value="borrowed" {{ $record->status == 'borrowed' ? 'selected' : '' }}>Borrowed</option>
+                                                <option value="returned" {{ $record->status == 'returned' ? 'selected' : '' }}>Returned</option>
+                                            </select>
+                                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Update</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endif
+                        @endforeach
+                    </tbody>
+                </table>
+                <div class="pagination-container">
+                    {{ $borrowingRecords->links() }}
+                </div>
+            @else
+                <p>No borrowing records found.</p>
+            @endif
         </div>
     </div>
 

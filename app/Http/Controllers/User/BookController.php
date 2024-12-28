@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Book;
+use App\Models\BorrowingRecord;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -41,16 +42,20 @@ class BookController extends Controller
     {
         $book = Book::findOrFail($id);
 
-        // If already borrowed, show error
-        if ($book->availability_status === 'borrowed') {
-            return redirect()->back()->with('error', 'This book is already borrowed.');
+        if ($book->availability_status == 'available') {
+            $book->update(['availability_status' => 'borrowed']);
+
+            BorrowingRecord::create([
+                'book_id' => $book->id,
+                'member_id' => Auth::id(),
+                'borrow_date' => now(),
+                'status' => 'borrowed',
+            ]);
+
+            return redirect()->route('view.books')->with('success', 'Book borrowed successfully.');
         }
 
-        // Mark as borrowed
-        $book->update(['availability_status' => 'borrowed']);
-
-        // Success message and redirect to borrowed books
-        return redirect()->route('view.borrowed.books')->with('success', 'Book borrowed successfully.');
+        return redirect()->route('view.books')->with('error', 'Book is not available.');
     }
 
     // View borrowed books
@@ -70,16 +75,18 @@ class BookController extends Controller
     public function unborrowBook($id)
     {
         $book = Book::findOrFail($id);
+        $borrowingRecord = BorrowingRecord::where('book_id', $book->id)
+                                          ->where('member_id', Auth::id())
+                                          ->where('status', 'borrowed')
+                                          ->firstOrFail();
 
-        // If already available, show error
-        if ($book->availability_status === 'available') {
-            return redirect()->back()->with('error', 'This book is already available.');
-        }
+        $borrowingRecord->update([
+            'return_date' => now(),
+            'status' => 'returned',
+        ]);
 
-        // Mark as available
         $book->update(['availability_status' => 'available']);
 
-        // Success message and redirect to view books
-        return redirect()->route('view.books')->with('success', 'Book returned successfully.');
+        return redirect()->route('view.borrowed.books')->with('success', 'Book returned successfully.');
     }
 }

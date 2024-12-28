@@ -9,20 +9,24 @@ class BorrowingRecord extends Model
 {
     use HasFactory;
 
-    protected $table = 'borrowing_records';
+    protected $primaryKey = 'record_id';
 
     protected $fillable = [
-        'book_id', 'member_id', 'borrow_date', 'return_date', 'status',
+        'book_id',
+        'member_id',
+        'borrow_date',
+        'return_date',
+        'status',
     ];
 
     // Define relationships
     public function book()
     {
-        return $this->belongsTo(Book::class);
+        return $this->belongsTo(Book::class, 'book_id');
     }
 
     public function member()
     {
-        return $this->belongsTo(Member::class);
+        return $this->belongsTo(Members::class, 'member_id');
     }
 }

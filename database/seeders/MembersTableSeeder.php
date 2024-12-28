@@ -4,9 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
-class MembersTable extends Seeder
+class MembersTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,20 +14,23 @@ class MembersTable extends Seeder
     {
         DB::table('members')->insert([
             [
-                'member_name' => 'John Doe',
-                'contact_information' => 'john.doe@example.com',
+                'member_username' => 'johndoe',
+                'member_fullname' => 'John Doe',
                 'address' => 'Manila',
+                'contact_information' => 'john.doe@example.com',
+                'password' => bcrypt('password'), // Ensure to hash the password
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'member_name' => 'Jane Smith',
-                'contact_information' => 'jane.smith@example.com',
+                'member_username' => 'janesmith',
+                'member_fullname' => 'Jane Smith',
                 'address' => 'Quezon City',
+                'contact_information' => 'jane.smith@example.com',
+                'password' => bcrypt('password'), // Ensure to hash the password
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            // Add more seed data as needed
         ]);
     }
 }

@@ -24,4 +24,11 @@ class Members extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function borrowingRecords()
+    {
+        return $this->hasMany(BorrowingRecord::class, 'member_id');
+    }
+
+
 }
