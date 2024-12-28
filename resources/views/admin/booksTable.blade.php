@@ -184,6 +184,11 @@
         <div class="p-6 flex-1">
             <h1 class="text-2xl font-semibold mb-6">Books</h1>
             
+            <!-- Search Bar -->
+            <form action="{{ route('admin.booksTable') }}" method="GET" class="mb-4">
+                <input type="text" name="search" placeholder="Search books..." class="p-2 border border-gray-300 rounded-lg">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Search</button>
+            </form>
             <!-- Display success or error message -->
             @if(session('success'))
                 <div class="bg-green-500 text-white p-3 rounded mb-4">

@@ -9,11 +9,19 @@ use Illuminate\Http\Request; // Add this line to import the Request class
 class BookController extends Controller {
     // ...existing code...
 
-    public function index() {
-        // Logic to retrieve and display books
-        return view('admin.booksTable', [
-            'books' => Book::paginate(10) // Paginate the books collection
-        ]);
+    public function index(Request $request) {
+        $query = Book::query();
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('title', 'LIKE', "%{$search}%")
+                  ->orWhere('author', 'LIKE', "%{$search}%")
+                  ->orWhere('ISBN', 'LIKE', "%{$search}%")
+                  ->orWhere('genre', 'LIKE', "%{$search}%");
+        }
+
+        $books = $query->paginate(10);
+        return view('admin.booksTable', compact('books'));
     }
 
     public function store(Request $request) {

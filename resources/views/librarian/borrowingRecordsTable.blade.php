@@ -161,7 +161,11 @@
         <!-- Content Section -->
         <div class="p-6 flex-1">
             <h1 class="text-2xl font-semibold mb-6">Borrowing Records</h1>
-            
+            <!-- Search Bar -->
+            <form action="{{ route('librarian.borrowingRecordsTable') }}" method="GET" class="mb-4">
+                <input type="text" name="search" placeholder="Search borrowing rec..." class="p-2 border border-gray-300 rounded-lg ">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Search</button>
+            </form>
             <!-- Borrowing Records Table -->
             @if ($borrowingRecords->count())
                 <table class="min-w-full table-auto border-collapse border border-gray-300">

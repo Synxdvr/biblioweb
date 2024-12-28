@@ -9,17 +9,21 @@ use Illuminate\Http\Request;
 
 class BorrowingRecordController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Fetch borrowing records with books and members
-        try {
-            $borrowingRecords = BorrowingRecord::with(['book', 'member'])->paginate(10);
-            return view('admin.borrowingRecordsTable', compact('borrowingRecords'));
-        } catch (\Exception $e) {
-            // Log error for debugging
-            \Log::error('Error fetching borrowing records: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Unable to fetch borrowing records.');
+        $query = BorrowingRecord::with(['book', 'member']);
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->whereHas('book', function ($q) use ($search) {
+                $q->where('title', 'LIKE', "%{$search}%");
+            })->orWhereHas('member', function ($q) use ($search) {
+                $q->where('member_fullname', 'LIKE', "%{$search}%");
+            });
         }
+
+        $borrowingRecords = $query->paginate(10);
+        return view('admin.borrowingRecordsTable', compact('borrowingRecords'));
     }
 
     public function update(Request $request, $id)

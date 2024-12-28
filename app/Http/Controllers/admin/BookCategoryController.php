@@ -8,9 +8,17 @@ use App\Models\BookCategory;
 
 class BookCategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $categories = BookCategory::paginate(10); // Adjust the number as needed
+        $query = BookCategory::query();
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('category_name', 'LIKE', "%{$search}%")
+                  ->orWhere('description', 'LIKE', "%{$search}%");
+        }
+
+        $categories = $query->paginate(10);
         return view('admin.bookCategoriesTable', compact('categories'));
     }
 

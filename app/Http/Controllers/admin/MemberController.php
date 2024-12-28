@@ -8,9 +8,19 @@ use Illuminate\Support\Facades\Hash;
 
 class MemberController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $members = Members::paginate(10);
+        $query = Members::query();
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('member_username', 'LIKE', "%{$search}%")
+                  ->orWhere('member_fullname', 'LIKE', "%{$search}%")
+                  ->orWhere('contact_information', 'LIKE', "%{$search}%")
+                  ->orWhere('address', 'LIKE', "%{$search}%");
+        }
+
+        $members = $query->paginate(10);
         return view('admin.membersTable', compact('members'));
     }
 

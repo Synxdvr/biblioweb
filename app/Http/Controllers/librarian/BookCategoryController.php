@@ -7,8 +7,14 @@ use Illuminate\Http\Request;
 use App\Models\BookCategory;
 
 class BookCategoryController extends Controller {
-    public function index() {
-        $categories = BookCategory::paginate(10);
+    public function index(Request $request) {
+        $query = BookCategory::query();
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('category_name', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+        }
+        $categories = $query->paginate(10);
         return view('librarian.bookCategoriesTable', compact('categories'));
     }
 

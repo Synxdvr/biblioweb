@@ -141,12 +141,9 @@
 
         <!-- Log Out Icon at Bottom -->
         <div class="group relative flex items-center justify-center mb-2 mt-auto">
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" id="logoutButton" class="w-16 h-16 flex items-center justify-center hover:bg-white hover:text-[#00001B] rounded-lg transition">
-                    <span class="text-3xl">&#128275;</span> <!-- Changed icon -->
-                </button>
-            </form>
+            <button type="button" id="logoutButton" class="w-16 h-16 flex items-center justify-center hover:bg-white hover:text-[#00001B] rounded-lg transition">
+                <span class="text-3xl">&#128275;</span> <!-- Changed icon -->
+            </button>
             <span class="tooltip">Log Out</span>
         </div>
     </nav>
@@ -162,6 +159,12 @@
         <!-- Content Section -->
         <div class="p-6 flex-1">
             <h1 class="text-2xl font-semibold mb-6">Members</h1>
+            
+            <!-- Search Bar -->
+            <form action="{{ route('admin.membersTable') }}" method="GET" class="mb-4">
+                <input type="text" name="search" placeholder="Search members..." class="p-2 border border-gray-300 rounded-lg">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Search</button>
+            </form>
             
             <!-- Display success or error message -->
             @if(session('success'))
@@ -344,13 +347,12 @@
             toggleModal('deleteMemberModal');
         }
 
-        document.getElementById('logoutButton').addEventListener('click', function(event) {
-            event.preventDefault();
+        document.getElementById('logoutButton').addEventListener('click', function() {
             document.getElementById('logoutModal').style.display = 'block';
         });
 
         document.getElementById('confirmLogoutButton').addEventListener('click', function() {
-            document.querySelector('form[action="/logout"]').submit();
+            document.getElementById('logoutForm').submit();
         });
 
         function closeLogoutModal() {
@@ -364,5 +366,8 @@
             }
         }
     </script>
+    <form id="logoutForm" action="{{ route('logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
 </body>
 </html>

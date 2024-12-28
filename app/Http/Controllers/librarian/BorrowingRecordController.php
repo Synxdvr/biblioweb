@@ -7,8 +7,17 @@ use App\Models\BorrowingRecord;
 use Illuminate\Http\Request;
 
 class BorrowingRecordController extends Controller {
-    public function index() {
-        $borrowingRecords = BorrowingRecord::with(['book', 'member'])->paginate(10);
+    public function index(Request $request) {
+        $query = BorrowingRecord::with(['book', 'member']);
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->whereHas('book', function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%");
+            })->orWhereHas('member', function($q) use ($search) {
+                $q->where('member_fullname', 'like', "%{$search}%");
+            });
+        }
+        $borrowingRecords = $query->paginate(10);
         return view('librarian.borrowingRecordsTable', compact('borrowingRecords'));
     }
 

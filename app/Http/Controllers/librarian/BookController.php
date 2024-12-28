@@ -7,10 +7,16 @@ use App\Models\Book;
 use Illuminate\Http\Request;
 
 class BookController extends Controller {
-    public function index() {
-        return view('librarian.booksTable', [
-            'books' => Book::paginate(10)
-        ]);
+    public function index(Request $request) {
+        $query = Book::query();
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('title', 'like', "%{$search}%")
+                  ->orWhere('author', 'like', "%{$search}%")
+                  ->orWhere('ISBN', 'like', "%{$search}%");
+        }
+        $books = $query->paginate(10);
+        return view('librarian.booksTable', compact('books'));
     }
 
     public function store(Request $request) {
